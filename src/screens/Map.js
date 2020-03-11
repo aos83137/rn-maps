@@ -70,6 +70,14 @@ export default class Map extends Component{
                 >
                     <Marker
                         coordinate={this.state.coordinate}
+                        // 드래그 이벤트 아직 작동 잘안해..
+                        onDragEnd={
+                            (e)=> this.setState({x: e.nativeEvent.coordinate})
+                        }
+                        //마커 이미지 사이즈가 안변함...
+                        image={require('../img/airbnb-logo.png')}
+                        style={{ width: 50, height: 5 }}
+
                         title="this is a marker"
                         description="this is a marker example"
                     />
@@ -155,5 +163,9 @@ const styles = StyleSheet.create({
         borderBottomWidth:0.5,
         paddingTop:5,
         
-    }
+    },
+    marker:{
+        width:5,
+        height:5,
+    },
 });
