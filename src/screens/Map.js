@@ -8,23 +8,8 @@ import {
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import RoundedInputBar  from '../components/inputs/RoundedInputBar'
-import MapView, {Marker, Geojson,PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+import MapView, {Marker,PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 
-
-const myPlace = {
-    type: 'FeatureCollection',
-    features: [
-      {
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'LineString',
-          coordinates: [[35.8943188, 128.6238612],[35.8944561,128.6238712]],
-        }
-      }
-    ]
-  };
-  
 export default class Map extends Component{
     //constructor
     //생성자 메소드로 컴포넌트가 생성될 때 단 한번만 실행된다.
@@ -93,14 +78,7 @@ export default class Map extends Component{
                         title="this is a marker"
                         description="this is a marker example"
                     />
-                    
-                    <Geojson 
-                        geojson={myPlace} 
-                        strokeColor="red"
-                        fillColor="green"
-                        strokeWidth={5}
-                    />
-                    
+                  
                 </MapView>
 
                 <View style={styles.header}>
