@@ -5,12 +5,24 @@ import {
     Text, 
     View,
     TextInput,
+    Image,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import RoundedInputBar  from '../components/inputs/RoundedInputBar'
-import MapView, {Marker,PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+import MapView, {Marker, Callout, Polygon, PROVIDER_GOOGLE, Circle } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 
 export default class Map extends Component{
+    state ={
+        coordinates:[
+            { name : '1', latitude:37.8025259, longitude:-122.4351431},
+            { name : '2', latitude:37.7896386, longitude:-122.421646},
+            { name : '3', latitude:37.7665248, longitude:-122.4161628},
+            { name : '4', latitude:37.7734153, longitude:-122.4577787},
+            { name : '5', latitude:37.7948605, longitude:-122.4596065},
+            { name : '6', latitude:37.8025259, longitude:-122.4351431},
+        ]
+    }
+
     //constructor
     //생성자 메소드로 컴포넌트가 생성될 때 단 한번만 실행된다.
     //이 메소드에서만 state를 설정할 수 있다.
@@ -62,25 +74,40 @@ export default class Map extends Component{
                     provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                     style={styles.map}
                     region={{
-                        latitude: 35.896198,
-                        longitude: 128.622353,
+                        latitude: 35.8943188,
+                        longitude:128.6238612,
                         latitudeDelta: 0.0115,
                         longitudeDelta: 0.0121,
                     }}
                 >
+                    {/* <Polygon 
+                        // coordinates={this.state.coordinates}
+                    /> */}
+                    <Circle
+                        center={{ latitude: 35.8943188,
+                            longitude:128.6238612, }}
+                        radius={100}
+                        fillColor={'rgba(100,100,200,0.5)'}
+                    />
                     <Marker
+                        draggable
                         coordinate={this.state.coordinate}
                         // 드래그 이벤트 아직 작동 잘안해..
                         onDragEnd={
                             (e)=> this.setState({x: e.nativeEvent.coordinate})
                         }
                         //마커 이미지 사이즈가 안변함...
-                        image={require('../img/airbnb-logo.png')}
-                        style={{ width: 50, height: 5 }}
+                        // image={require('../img/airbnb-logo.png')}
+                        // style={{ width: 50, height: 5 }}
 
-                        title="this is a marker"
-                        description="this is a marker example"
-                    />
+                        // title={"this is a marker"}
+                    >
+                        <Callout>
+                            <Image source={require('../img/marker.png')}/>
+                            <Text>An Interstion city</Text>
+                        </Callout>
+                        {/* <Image source={require('../img/marker.png')}/> */}
+                    </Marker>
                     <Marker
                         coordinate={{latitude: 35.896198, longitude: 128.622353}}
                         title="this is a marker"
