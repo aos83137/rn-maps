@@ -6,6 +6,7 @@ import {
     View,
     TextInput,
     Image,
+    Alert,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import RoundedInputBar  from '../components/inputs/RoundedInputBar'
@@ -64,6 +65,25 @@ export default class Map extends Component{
             
         
     }
+    //Alert 사용
+    showWelcomMesage = () =>{
+        Alert.alert(
+            //Header
+            'Welecome to San 대구',
+            //title
+            'The food is amazing',
+            //footer button
+            [
+                {
+                    text:'Cancel',
+                    style: 'cancel'
+                },
+                {
+                    text:'Ok'
+                }
+            ]
+        )
+    }
 
     
     render(){
@@ -102,7 +122,7 @@ export default class Map extends Component{
 
                         // title={"this is a marker"}
                     >
-                        <Callout>
+                        <Callout onPress={this.showWelcomMesage}>
                             <Image source={require('../img/marker.png')}/>
                             <Text>An Interstion city</Text>
                         </Callout>
