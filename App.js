@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Map from './src/screens/Map'
-import { Platform, PermissionsAndroid } from 'react-native';
+import { Platform, PermissionsAndroid, Alert } from 'react-native';
 
 export async function request_location_runtime_permission() {
 
@@ -14,11 +14,11 @@ export async function request_location_runtime_permission() {
     )
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
 
-      Alert.alert("Location Permission Granted.");
+      // Alert.alert("위치 권한 부여됨");
     }
     else {
 
-      Alert.alert("Location Permission Not Granted");
+      // Alert.alert("Location Permission Not Granted");
 
     }
   } catch (err) {

@@ -13,16 +13,6 @@ import RoundedInputBar  from '../components/inputs/RoundedInputBar'
 import MapView, {Marker, Callout, Polygon, PROVIDER_GOOGLE, Circle } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 
 export default class Map extends Component{
-    state ={
-        coordinates:[
-            { name : '1', latitude:37.8025259, longitude:-122.4351431},
-            { name : '2', latitude:37.7896386, longitude:-122.421646},
-            { name : '3', latitude:37.7665248, longitude:-122.4161628},
-            { name : '4', latitude:37.7734153, longitude:-122.4577787},
-            { name : '5', latitude:37.7948605, longitude:-122.4596065},
-            { name : '6', latitude:37.8025259, longitude:-122.4351431},
-        ]
-    }
 
     //constructor
     //생성자 메소드로 컴포넌트가 생성될 때 단 한번만 실행된다.
@@ -37,7 +27,14 @@ export default class Map extends Component{
                 longitude:128.6238612,
             },
             error: null,
-            
+            coordinates:[
+                { name : '1', latitude:35.8938, longitude:128.6245},
+                { name : '2', latitude:35.8970, longitude:128.6249},
+                { name : '3', latitude:35.8965,  longitude:128.6220},
+                { name : '4', latitude:35.8940, longitude:128.6219},
+                { name : '5', latitude:35.8943188, longitude:128.6238612},
+                
+            ],
         };
     }
     
@@ -123,7 +120,7 @@ export default class Map extends Component{
                         // title={"this is a marker"}
                     >
                         <Callout onPress={this.showWelcomMesage}>
-                            <Image source={require('../img/marker.png')}/>
+                            {/* <Image source={require('../img/sushi.jpg')}/> */}
                             <Text>An Interstion city</Text>
                         </Callout>
                         {/* <Image source={require('../img/marker.png')}/> */}
@@ -133,7 +130,19 @@ export default class Map extends Component{
                         title="this is a marker"
                         description="this is a marker example"
                     />
-                  
+                    
+                    {
+                        this.state.coordinates.map(marker=>(
+                            <Marker
+                            key={marker.name}
+                            coordinate={{latitude:marker.latitude, longitude:marker.longitude}}
+                            title={marker.name}
+                        
+                            >
+                                
+                            </Marker>
+                        ))
+                    }
                 </MapView>
 
                 <View style={styles.header}>
