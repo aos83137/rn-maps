@@ -7,10 +7,12 @@ import {
     TextInput,
     Image,
     Alert,
+    Dimensions,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import RoundedInputBar  from '../components/inputs/RoundedInputBar'
 import MapView, {Marker, Callout, Polygon, PROVIDER_GOOGLE, Circle } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+import Carousel from 'react-native-snap-carousel';
 
 export default class Map extends Component{
 
@@ -28,11 +30,11 @@ export default class Map extends Component{
             },
             error: null,
             coordinates:[
-                { name : '1', latitude:35.8938, longitude:128.6245},
-                { name : '2', latitude:35.8970, longitude:128.6249},
-                { name : '3', latitude:35.8965,  longitude:128.6220},
-                { name : '4', latitude:35.8940, longitude:128.6219},
-                { name : '5', latitude:35.8943188, longitude:128.6238612},
+                { name : '1', latitude:35.8938, longitude:128.6245, image:require('../img/sushi.jpg')},
+                { name : '2', latitude:35.8970, longitude:128.6249, image:require('../img/sushi.jpg')},
+                { name : '3', latitude:35.8965,  longitude:128.6220, image:require('../img/sushi.jpg')},
+                { name : '4', latitude:35.8940, longitude:128.6219, image:require('../img/sushi.jpg')},
+                { name : '5', latitude:35.8943188, longitude:128.6238612, image:require('../img/sushi.jpg')},
                 
             ],
         };
@@ -43,20 +45,28 @@ export default class Map extends Component{
         // Instead of navigator.geolocation, just use Geolocation.
             Geolocation.getCurrentPosition(
                 (position) => {
-                    this.setState({ 
+                    let initialRegion = {
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
+                        latitudeDelta: 0.0115,
+                        longitudeDelta: 0.0121,
+                    }
+
+                    this.setState({ 
+                        latitude : position.coords.latitude,
+                        longitude : position.coords.longitude,
+                        initialRegion,
                         error: null,
                     });
-                    console.log(position);
+                    console.log(JSON.stringify(position));
                 },
                 (error) => {
                     // See error code charts below.
                     this.setState({error:error.message}),
                     console.log(error.code, error.message);
-                    console.log('hellod');
                 },
                 { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+                //정확도, 타임아웃, 최대 연령
             );
 
             
@@ -81,8 +91,12 @@ export default class Map extends Component{
             ]
         )
     }
-
-    
+    renderCarouselItem = ({item}) => (
+        <View style={styles.cardContainer}>
+            <Text style={styles.cardTitle}>{item.name}</Text>
+            <Image style={styles.cardImage} source={item.image}/>
+        </View>
+    )
     render(){
         return(
             <View style={styles.container}>
@@ -90,13 +104,10 @@ export default class Map extends Component{
                 <MapView
                     provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                     style={styles.map}
-                    region={{
-                        latitude: 35.8943188,
-                        longitude:128.6238612,
-                        latitudeDelta: 0.0115,
-                        longitudeDelta: 0.0121,
-                    }}
-                >
+                    ref={map=> this._map = map}
+                    initialRegion={this.state.initialRegion}
+                    showsUserLocation={true}
+                >   
                     {/* <Polygon 
                         // coordinates={this.state.coordinates}
                     /> */}
@@ -162,7 +173,14 @@ export default class Map extends Component{
                 </View>
                 <View style={styles.content}><Text>content</Text></View>
                 <View style={styles.footer}>
-                    <Text>footer</Text>
+                    <Carousel
+                        ref={(c) => { this._carousel = c; }}
+                        data={this.state.coordinates}
+                        renderItem={this.renderCarouselItem}
+                        sliderWidth={Dimensions.get('window').width}
+                        itemWidth={300}
+                        containerCustomStyle={styles.carousel}
+                    />
                     {/* <RoundedInputBar >
                         buttonColor={'#023e71'}
                         title={'회원가입'}
@@ -182,6 +200,7 @@ const styles = StyleSheet.create({
     },
     map: {
         ...StyleSheet.absoluteFillObject,
+        //(position: 'absolute', left: 0, right: 0, top: 0, bottom: 0)
         zIndex:1,
     },
     header: {
@@ -205,10 +224,10 @@ const styles = StyleSheet.create({
         // backgroundColor: '#d6ca1a',
     },
     footer: {
-        height : '5%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#1ad657',
+        // height : '40%',
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        // backgroundColor: '#1ad657',
     },
     elem :{
         width: '100%',
@@ -223,5 +242,30 @@ const styles = StyleSheet.create({
     marker:{
         width:5,
         height:5,
+    },
+    carousel:{
+        position:'absolute',
+        bottom: 0,
+        marginBottom: 48
+    },
+    cardContainer:{
+        backgroundColor: 'rgba(0,0,0,0.6)',
+        height:200,
+        width:300,
+        padding:24,
+        borderRadius:24
+    },
+    cardImage:{
+        height:120,
+        width:300,
+        bottom:0,
+        position:'absolute',
+        borderBottomLeftRadius:24,
+        borderBottomRightRadius:24,
+    },
+    cardTitle:{
+        color:'white',
+        fontSize:22,
+        alignSelf:'center'
     },
 });
