@@ -92,9 +92,11 @@ export default class Map extends Component{
             ]
         )
     }
+    //onSnapToItem의 콜백함수로 쓸 함수임
     onCarouselItemChange = (index) =>{
         let location = this.state.coordinates[index];
-
+        
+        //Region이동
         this._map.animateToRegion({
             latitude: location.latitude,
             longitude: location.longitude,
@@ -102,9 +104,11 @@ export default class Map extends Component{
             longitudeDelta: 0.0121,
         });
 
+        //showCallout() : 이 마커의 문구를 표시합니다
         this.state.markers[index].showCallout();
     }
 
+    //marker눌렀을 때 이벤트
     onMarkerPressed = (location, index) => {
         this._map.animateToRegion({
             latitude: location.latitude,
@@ -113,9 +117,11 @@ export default class Map extends Component{
             longitudeDelta: 0.0121,
         })
 
+        //snapToItem : carousel 의 함수  index에 맞는 스냅을 보여줌
         this._carousel.snapToItem(index);
     }
 
+    //carousel의 아이템 뷰 설정 함수
     renderCarouselItem = ({item}) => (
         <View style={styles.cardContainer}>
             <Text style={styles.cardTitle}>{item.name}</Text>
@@ -202,13 +208,16 @@ export default class Map extends Component{
                 <View style={styles.content}><Text>content</Text></View>
                 <View style={styles.footer}>
                     <Carousel
+                    //https://github.com/archriss/react-native-snap-carousel
                         ref={(c) => { this._carousel = c; }}
                         data={this.state.coordinates}
                         renderItem={this.renderCarouselItem}
                         sliderWidth={Dimensions.get('window').width}
                         itemWidth={300}
                         containerCustomStyle={styles.carousel}
-                        onSnapToItem = {(index) => this.onCarouselItemChange(index)}
+                        onSnapToItem = {
+                            (index) => this.onCarouselItemChange(index)
+                        }
                         removeClippedSubviews={false}
                     />
                     {/* <RoundedInputBar >
