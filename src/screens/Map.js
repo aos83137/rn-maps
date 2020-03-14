@@ -37,6 +37,7 @@ export default class Map extends Component{
                 { name : '5', latitude:35.8943188, longitude:128.6238612, image:require('../img/sushi.jpg')},
                 
             ],
+            markers:[],
         };
     }
     
@@ -91,6 +92,30 @@ export default class Map extends Component{
             ]
         )
     }
+    onCarouselItemChange = (index) =>{
+        let location = this.state.coordinates[index];
+
+        this._map.animateToRegion({
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: 0.0115,
+            longitudeDelta: 0.0121,
+        });
+
+        this.state.markers[index].showCallout();
+    }
+
+    onMarkerPressed = (location, index) => {
+        this._map.animateToRegion({
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: 0.0115,
+            longitudeDelta: 0.0121,
+        })
+
+        this._carousel.snapToItem(index);
+    }
+
     renderCarouselItem = ({item}) => (
         <View style={styles.cardContainer}>
             <Text style={styles.cardTitle}>{item.name}</Text>
@@ -104,7 +129,9 @@ export default class Map extends Component{
                 <MapView
                     provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                     style={styles.map}
+                    //???
                     ref={map=> this._map = map}
+                    // ???
                     initialRegion={this.state.initialRegion}
                     showsUserLocation={true}
                 >   
@@ -143,12 +170,13 @@ export default class Map extends Component{
                     />
                     
                     {
-                        this.state.coordinates.map(marker=>(
+                        this.state.coordinates.map((marker, index)=>(
                             <Marker
                             key={marker.name}
                             coordinate={{latitude:marker.latitude, longitude:marker.longitude}}
                             title={marker.name}
-                        
+                            ref={ref=> this.state.markers[index] = ref}
+                            onPress = {() => this.onMarkerPressed(marker, index)}
                             >
                                 
                             </Marker>
@@ -180,6 +208,8 @@ export default class Map extends Component{
                         sliderWidth={Dimensions.get('window').width}
                         itemWidth={300}
                         containerCustomStyle={styles.carousel}
+                        onSnapToItem = {(index) => this.onCarouselItemChange(index)}
+                        removeClippedSubviews={false}
                     />
                     {/* <RoundedInputBar >
                         buttonColor={'#023e71'}
