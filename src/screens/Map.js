@@ -195,11 +195,11 @@ export default class Map extends Component{
                     <Text >longitude : {this.state.longitude}</Text>
                 </View>
                 <View style={styles.title}>
-                    <View style={styles.elem}>
+                    <View style={styles.titleCardTop}>
                         <Text>title</Text>
                         <TextInput style={{borderColor: '#aaa', width:'70%', height:35, borderWidth: 1, borderRadius: 5, padding:5}}/>
                     </View>
-                    <View style={styles.elem}>
+                    <View style={styles.titleCardBottom}>
                         <Text>title</Text>
                         <TextInput style={{borderColor: '#aaa', width:'70%', height:35, borderWidth: 1, borderRadius: 5, padding:5}}/>
                     </View>
@@ -235,7 +235,6 @@ export default class Map extends Component{
 const styles = StyleSheet.create({
     container:{
         flex : 1,
-        justifyContent: 'center',
     },
     map: {
         ...StyleSheet.absoluteFillObject,
@@ -249,15 +248,29 @@ const styles = StyleSheet.create({
         backgroundColor: '#9aa9ff',
     },
     title : {
-        height:"10%",
+        // height:"10%",
         justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor : 'white',
-        margin :30,
-        padding :20,
+        // alignItems: 'center',
+        // margin :30,
+        // padding :20,
         
-        
+        backgroundColor: 'rgba(255,255,255,1)',
+        height:200,
+        width:300,
+        padding:24,
+        borderRadius:24
     },
+    titleCardTop:{
+        width: '100%',
+        fontSize:22,
+        alignSelf:'center'
+    },
+    titleCardBottom:{
+        width: '100%',
+        // height:120,
+        bottom:0,
+    },
+
     content : {
         flex : 4,
         // backgroundColor: '#d6ca1a',
@@ -267,16 +280,6 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
         // alignItems: 'center',
         // backgroundColor: '#1ad657',
-    },
-    elem :{
-        width: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        borderColor:'#eee',
-        borderBottomWidth:0.5,
-        paddingTop:5,
-        
     },
     marker:{
         width:5,
@@ -306,5 +309,8 @@ const styles = StyleSheet.create({
         color:'white',
         fontSize:22,
         alignSelf:'center'
+
     },
+    nextButton : {
+    }
 });
