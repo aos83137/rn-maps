@@ -8,11 +8,15 @@ import {
     Image,
     Alert,
     Dimensions,
+    TouchableHighlight,
 } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import RoundedInputBar  from '../components/inputs/RoundedInputBar'
 import MapView, {Marker, Callout, Polygon, PROVIDER_GOOGLE, Circle } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import Carousel from 'react-native-snap-carousel';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+const FS = 14;
 
 export default class Map extends Component{
 
@@ -190,22 +194,60 @@ export default class Map extends Component{
                     }
                 </MapView>
 
-                <View style={styles.header}>
+                {/* <View style={styles.header}>
+                    <Text >latitude : {this.state.latitude}</Text>
+                    <Text >longitude : {this.state.longitude}</Text>
+                </View> */}
+                
+                <View style={styles.title}>
+                    <TouchableHighlight style={styles.titleSearchButton}>
+                        <View style={styles.elem}>
+                            <Icon
+                                name = "search"
+                                color={colors.green01}
+                                size={24}
+                                style={styles.icon}
+                            />
+                            <Text style={styles.titleText}>대구</Text>
+                        </View>
+                    </TouchableHighlight>
+                    <TouchableHighlight style={styles.titleSearchButton}>
+                        <View style={styles.elem}>
+                            <View style={styles.calendarView}>
+                                <Icon
+                                    name="calendar"
+                                    size={24}
+                                    color={colors.green01}
+                                    style={styles.icon}
+                                />
+                                <Text style={styles.titleText}>
+                                    03/19 10:00 - 03/19 19:00
+                                </Text>
+                            </View>
+                            <View style={styles.luggageView}>
+                                <Icon
+                                    name="shopping-bag"
+                                    size={24}
+                                    color={colors.green01}
+                                    style={styles.icon}
+                                />
+                                <Text style={styles.titleText}> x0</Text>
+                                <Icon
+                                    name="suitcase"
+                                    size={24}
+                                    color={colors.green01}
+                                    style={styles.icon}
+                                />
+                                <Text style={styles.titleText}> x1</Text>
+                            </View>
+                        </View>
+                    </TouchableHighlight>
+                </View>
+                <View style={styles.content}>
+                    <Text>현재 좌표</Text>
                     <Text >latitude : {this.state.latitude}</Text>
                     <Text >longitude : {this.state.longitude}</Text>
                 </View>
-                <View style={styles.title}>
-                    <View style={styles.titleCardTop}>
-                        <Text>title</Text>
-                        <TextInput style={{borderColor: '#aaa', width:'70%', height:35, borderWidth: 1, borderRadius: 5, padding:5}}/>
-                    </View>
-                    <View style={styles.titleCardBottom}>
-                        <Text>title</Text>
-                        <TextInput style={{borderColor: '#aaa', width:'70%', height:35, borderWidth: 1, borderRadius: 5, padding:5}}/>
-                    </View>
-
-                </View>
-                <View style={styles.content}><Text>content</Text></View>
                 <View style={styles.footer}>
                     <Carousel
                     //https://github.com/archriss/react-native-snap-carousel
@@ -220,11 +262,6 @@ export default class Map extends Component{
                         }
                         removeClippedSubviews={false}
                     />
-                    {/* <RoundedInputBar >
-                        buttonColor={'#023e71'}
-                        title={'회원가입'}
-                        onPress={() => alert('회원가입 버튼')}/>
-                    </RoundedInputBar > */}
                 </View>
                 
             </View>
@@ -235,6 +272,8 @@ export default class Map extends Component{
 const styles = StyleSheet.create({
     container:{
         flex : 1,
+        flexDirection:'column',
+        alignItems:"center"
     },
     map: {
         ...StyleSheet.absoluteFillObject,
@@ -242,44 +281,53 @@ const styles = StyleSheet.create({
         zIndex:1,
     },
     header: {
-        height:"7%",
-        justifyContent: 'center',
+        width:'100%',
         alignItems: 'center',
         backgroundColor: '#9aa9ff',
     },
     title : {
-        // height:"10%",
-        justifyContent: 'center',
-        // alignItems: 'center',
-        // margin :30,
-        // padding :20,
-        
+        alignItems: 'center',
         backgroundColor: 'rgba(255,255,255,1)',
-        height:200,
-        width:300,
-        padding:24,
-        borderRadius:24
+        width:'90%',
+        marginTop:'5%',
+        borderRadius:5,
+        borderColor:colors.round01,
+        borderWidth:1.7,
     },
-    titleCardTop:{
+    titleSearchButton:{
+        width:'100%',
+    },
+    calendarView:{
+        flexDirection:'row',
+        flex:4,
+    },
+    luggageView:{
+        flexDirection:'row',
+        flex:1,
+        justifyContent:'flex-end'
+    },
+    titleText:{
+        color: colors.green01,
+        fontSize:FS,
+        paddingLeft:5,
+        marginTop:3,
+    },
+    icon:{
+        marginLeft:5,
+    },
+    elem: {
         width: '100%',
-        fontSize:22,
-        alignSelf:'center'
-    },
-    titleCardBottom:{
-        width: '100%',
-        // height:120,
-        bottom:0,
-    },
-
+        flexDirection: 'row',
+        alignItems: 'stretch',
+        padding:"2.5%",
+    }
+    ,
     content : {
         flex : 4,
-        // backgroundColor: '#d6ca1a',
+        alignItems:'center',
     },
     footer: {
-        // height : '40%',
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        // backgroundColor: '#1ad657',
+        width:'100%',
     },
     marker:{
         width:5,
