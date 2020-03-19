@@ -15,6 +15,7 @@ import RoundedInputBar  from '../components/inputs/RoundedInputBar'
 import MapView, {Marker, Callout, Polygon, PROVIDER_GOOGLE, Circle } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import Carousel from 'react-native-snap-carousel';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import SearchMenu from '../components/menu/SearchMenu';
 
 const FS = 14;
 
@@ -200,48 +201,7 @@ export default class Map extends Component{
                 </View> */}
                 
                 <View style={styles.title}>
-                    <TouchableHighlight style={styles.titleSearchButton}>
-                        <View style={styles.elem}>
-                            <Icon
-                                name = "search"
-                                color={colors.green01}
-                                size={24}
-                                style={styles.icon}
-                            />
-                            <Text style={styles.titleText}>대구</Text>
-                        </View>
-                    </TouchableHighlight>
-                    <TouchableHighlight style={styles.titleSearchButton}>
-                        <View style={styles.elem}>
-                            <View style={styles.calendarView}>
-                                <Icon
-                                    name="calendar"
-                                    size={24}
-                                    color={colors.green01}
-                                    style={styles.icon}
-                                />
-                                <Text style={styles.titleText}>
-                                    03/19 10:00 - 03/19 19:00
-                                </Text>
-                            </View>
-                            <View style={styles.luggageView}>
-                                <Icon
-                                    name="shopping-bag"
-                                    size={24}
-                                    color={colors.green01}
-                                    style={styles.icon}
-                                />
-                                <Text style={styles.titleText}> x0</Text>
-                                <Icon
-                                    name="suitcase"
-                                    size={24}
-                                    color={colors.green01}
-                                    style={styles.icon}
-                                />
-                                <Text style={styles.titleText}> x1</Text>
-                            </View>
-                        </View>
-                    </TouchableHighlight>
+                    <SearchMenu/>
                 </View>
                 <View style={styles.content}>
                     <Text>현재 좌표</Text>
@@ -287,41 +247,11 @@ const styles = StyleSheet.create({
     },
     title : {
         alignItems: 'center',
-        backgroundColor: 'rgba(255,255,255,1)',
         width:'90%',
-        marginTop:'5%',
-        borderRadius:5,
-        borderColor:colors.round01,
-        borderWidth:1.7,
     },
     titleSearchButton:{
         width:'100%',
     },
-    calendarView:{
-        flexDirection:'row',
-        flex:4,
-    },
-    luggageView:{
-        flexDirection:'row',
-        flex:1,
-        justifyContent:'flex-end'
-    },
-    titleText:{
-        color: colors.green01,
-        fontSize:FS,
-        paddingLeft:5,
-        marginTop:3,
-    },
-    icon:{
-        marginLeft:5,
-    },
-    elem: {
-        width: '100%',
-        flexDirection: 'row',
-        alignItems: 'stretch',
-        padding:"2.5%",
-    }
-    ,
     content : {
         flex : 4,
         alignItems:'center',
