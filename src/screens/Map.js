@@ -136,19 +136,13 @@ export default class Map extends Component{
     render(){
         return(
             <View style={styles.container}>
-
                 <MapView
                     provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                     style={styles.map}
-                    //???
                     ref={map=> this._map = map}
-                    // ???
                     initialRegion={this.state.initialRegion}
                     showsUserLocation={true}
                 >   
-                    {/* <Polygon 
-                        // coordinates={this.state.coordinates}
-                    /> */}
                     <Circle
                         center={{ latitude: 35.8943188,
                             longitude:128.6238612, }}
@@ -195,11 +189,6 @@ export default class Map extends Component{
                     }
                 </MapView>
 
-                {/* <View style={styles.header}>
-                    <Text >latitude : {this.state.latitude}</Text>
-                    <Text >longitude : {this.state.longitude}</Text>
-                </View> */}
-                
                 <View style={styles.title}>
                     <SearchMenu/>
                 </View>
