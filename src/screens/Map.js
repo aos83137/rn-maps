@@ -19,6 +19,7 @@ import SearchMenu from '../components/menu/SearchMenu';
 
 const FS = 14;
 
+
 export default class Map extends Component{
 
     //constructor
@@ -43,6 +44,7 @@ export default class Map extends Component{
                 
             ],
             markers:[],
+            hiddenMenu:{display:'none'}
         };
     }
     
@@ -65,6 +67,7 @@ export default class Map extends Component{
                         error: null,
                     });
                     console.log(JSON.stringify(position));
+                    
                 },
                 (error) => {
                     // See error code charts below.
@@ -77,6 +80,11 @@ export default class Map extends Component{
 
             
         
+    }
+    clickMapHiddenMenu = () =>{
+        this.setState({
+            hiddenMenu:{display:'none'}
+        })
     }
     //Alert 사용
     showWelcomMesage = () =>{
@@ -112,7 +120,7 @@ export default class Map extends Component{
         //showCallout() : 이 마커의 문구를 표시합니다
         this.state.markers[index].showCallout();
     }
-
+    
     //marker눌렀을 때 이벤트
     onMarkerPressed = (location, index) => {
         this._map.animateToRegion({
@@ -124,6 +132,9 @@ export default class Map extends Component{
 
         //snapToItem : carousel 의 함수  index에 맞는 스냅을 보여줌
         this._carousel.snapToItem(index);
+        this.setState({
+            hiddenMenu:{display:'flex'}
+        })
     }
 
     //carousel의 아이템 뷰 설정 함수
@@ -142,6 +153,10 @@ export default class Map extends Component{
                     ref={map=> this._map = map}
                     initialRegion={this.state.initialRegion}
                     showsUserLocation={true}
+                    showsMyLocationButton = {true}
+                    showsCompass = {true}
+                    rotateEnabled={false}
+                    onPress = {this.clickMapHiddenMenu}
                 >   
                     <Circle
                         center={{ latitude: 35.8943188,
@@ -197,7 +212,7 @@ export default class Map extends Component{
                     <Text >latitude : {this.state.latitude}</Text>
                     <Text >longitude : {this.state.longitude}</Text>
                 </View>
-                <View style={styles.footer}>
+                <View style={[this.state.hiddenMenu,styles.footer]}>
                     <Carousel
                     //https://github.com/archriss/react-native-snap-carousel
                         ref={(c) => { this._carousel = c; }}
