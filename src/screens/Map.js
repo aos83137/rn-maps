@@ -123,6 +123,10 @@ export default class Map extends Component{
     
     //marker눌렀을 때 이벤트
     onMarkerPressed = (location, index) => {
+        this.setState({
+            hiddenMenu:{display:'flex'}
+        })
+
         this._map.animateToRegion({
             latitude: location.latitude,
             longitude: location.longitude,
@@ -131,10 +135,8 @@ export default class Map extends Component{
         })
 
         //snapToItem : carousel 의 함수  index에 맞는 스냅을 보여줌
+
         this._carousel.snapToItem(index);
-        this.setState({
-            hiddenMenu:{display:'flex'}
-        })
     }
 
     //carousel의 아이템 뷰 설정 함수
